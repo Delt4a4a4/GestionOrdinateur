@@ -1,72 +1,69 @@
 @page "/login"
 @using System.Net
+@using System.Net.Http.Json
+@using System.Text.Json.Serialization
 @inject HttpClient Http
 @inject Blazored.SessionStorage.ISessionStorageService SessionStorage
 @inject NavigationManager Navigation
 
 <h3>Connexion</h3>
 
-<InputText @bind-Value="login" class="form-control" />
+<InputText @bind-Value="username" class="form-control" placeholder="Nom d'utilisateur" />
+<InputText @bind-Value="password" type="password" class="form-control mt-2" placeholder="Mot de passe" />
 
 <button class="btn btn-primary mt-2" @onclick="Connecter">
     Se connecter
 </button>
 
-<p class="text-danger">@erreur</p>
+<p class="text-danger">@error</p>
 
 @code {
-    private string login = "";
-    private string erreur = "";
+    private string username = "";
+    private string password = "";
+    private string error = "";
 
     private async Task Connecter()
     {
-        erreur = "";
+        error = "";
 
-        if (string.IsNullOrWhiteSpace(login))
+        if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
         {
-            erreur = "Veuillez saisir un login.";
+            error = "Veuillez saisir un nom d'utilisateur et un mot de passe.";
             return;
         }
 
         try
         {
-            var loginEncode = Uri.EscapeDataString(login.Trim());
+            using var response = await Http.PostAsJsonAsync(
+                "http://localhost:5035/api/auth/login",
+                new { username, password });
 
-            using var utilisateur = await Http.GetAsync(
-                $"http://localhost:5041/api/users/{loginEncode}");
-
-            if (utilisateur.StatusCode == HttpStatusCode.NotFound)
+            if (!response.IsSuccessStatusCode)
             {
-                erreur = "Cet utilisateur n'existe pas.";
+                error = "Connexion refusée. Vérifie les identifiants et la configuration Keycloak.";
                 return;
             }
 
-            utilisateur.EnsureSuccessStatusCode();
+            var result = await response.Content.ReadFromJsonAsync<TokenResult>();
 
-            using var requete = new HttpRequestMessage(
-                HttpMethod.Post,
-                $"http://localhost:5025/auth/login?userId={loginEncode}");
-
-            // Demande le token en texte brut, sans guillemets JSON.
-            requete.Headers.Accept.ParseAdd("text/plain");
-
-            using var reponse = await Http.SendAsync(requete);
-            reponse.EnsureSuccessStatusCode();
-
-            var token = await reponse.Content.ReadAsStringAsync();
-
-            if (string.IsNullOrWhiteSpace(token))
+            if (string.IsNullOrWhiteSpace(result?.AccessToken))
             {
-                erreur = "Aucun token reçu.";
+                error = "Keycloak n'a pas renvoyé de jeton d'accès.";
                 return;
             }
 
-            await SessionStorage.SetItemAsync("jwtToken", token);
-            Navigation.NavigateTo("/");
+            await SessionStorage.SetItemAsync("jwtToken", result.AccessToken);
+            Navigation.NavigateTo("/ordinateurs");
         }
         catch (HttpRequestException)
         {
-            erreur = "Échec de connexion : vérifiez les API et CORS.";
+            error = "Impossible de joindre l'API d'authentification.";
         }
+    }
+
+    private sealed class TokenResult
+    {
+        [JsonPropertyName("access_token")]
+        public string AccessToken { get; set; } = "";
     }
 }

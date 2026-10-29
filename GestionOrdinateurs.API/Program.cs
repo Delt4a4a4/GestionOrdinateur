@@ -57,35 +57,22 @@ builder.Services.AddCors(options =>
 var jwtKey = builder.Configuration["Jwt:Key"] ?? "";
 var key = Encoding.ASCII.GetBytes(jwtKey);
 
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(options =>
-{
-    options.RequireHttpsMetadata = false;
-    options.SaveToken = true;
-    options.TokenValidationParameters = new TokenValidationParameters
+var issuer =
+    $"{builder.Configuration["Keycloak:BaseUrl"]}/realms/{builder.Configuration["Keycloak:Realm"]}";
+
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
     {
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(key),
-        ValidateIssuer = false,
-        ValidateAudience = false
-    };
-    options.Events = new JwtBearerEvents
+        options.Authority = issuer;
+        options.RequireHttpsMetadata = false; // Développement local uniquement
+        options.TokenValidationParameters = new TokenValidationParameters
         {
-            OnTokenValidated = context =>
-            {
-                Console.WriteLine($"Utilisateur utilisant un Token Valide --- {context.Principal?.Identity?.Name ?? "Anonymous"}");
-                return Task.CompletedTask;
-            },
-            OnAuthenticationFailed = context =>
-            {
-                Console.WriteLine("Token Invalide");
-                return Task.CompletedTask;
-            }
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            RoleClaimType = "roles"
         };
-});
+    });
 builder.Services.AddAuthorization();
 
 var app = builder.Build();

@@ -20,9 +20,6 @@ services:
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
-      KC_HOSTNAME: localhost
-      KC_HOSTNAME_PORT: 8180
-      KC_HTTP_ENABLED: "true"
       KC_HEALTH_ENABLED: "true"
       KC_HOSTNAME_STRICT_BACKCHANNEL: "false"
       KC_HOSTNAME_STRICT_HTTPS: "false"
@@ -33,7 +30,27 @@ services:
       - keycloak_data:/opt/keycloak/data
     networks:
       - appnet
-      
+
+
+  authentification-keycloak-api:
+    image: ${DOCKER_ACCOUNT}/authentification-keycloak-api:latest
+    build:
+      context: .
+      dockerfile: AuthentificationKeycloakApi/Dockerfile
+    ports:
+      - "5035:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+      Keycloak__BaseUrl: http://keycloak:8080
+      Keycloak__Realm: my-realm
+      Keycloak__ClientId: my-client
+      Keycloak__ClientSecret: ${KEYCLOAK_CLIENT_SECRET}
+    depends_on:
+      - keycloak
+    networks:
+      - appnet
+
   gestionordinateurs-api:
     image: ${DOCKER_ACCOUNT}/gestionordinateurs-api:latest
     build:
@@ -43,6 +60,8 @@ services:
       - "5010:8080"
       - "5041:8080"
     environment:
+      Keycloak__BaseUrl: http://keycloak:8080
+      Keycloak__Realm: my-realm
       ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_URLS: http://+:8080
     networks:
