@@ -1,0 +1,72 @@
+@page "/login"
+@using System.Net
+@inject HttpClient Http
+@inject Blazored.SessionStorage.ISessionStorageService SessionStorage
+@inject NavigationManager Navigation
+
+<h3>Connexion</h3>
+
+<InputText @bind-Value="login" class="form-control" />
+
+<button class="btn btn-primary mt-2" @onclick="Connecter">
+    Se connecter
+</button>
+
+<p class="text-danger">@erreur</p>
+
+@code {
+    private string login = "";
+    private string erreur = "";
+
+    private async Task Connecter()
+    {
+        erreur = "";
+
+        if (string.IsNullOrWhiteSpace(login))
+        {
+            erreur = "Veuillez saisir un login.";
+            return;
+        }
+
+        try
+        {
+            var loginEncode = Uri.EscapeDataString(login.Trim());
+
+            using var utilisateur = await Http.GetAsync(
+                $"http://localhost:5041/api/users/{loginEncode}");
+
+            if (utilisateur.StatusCode == HttpStatusCode.NotFound)
+            {
+                erreur = "Cet utilisateur n'existe pas.";
+                return;
+            }
+
+            utilisateur.EnsureSuccessStatusCode();
+
+            using var requete = new HttpRequestMessage(
+                HttpMethod.Post,
+                $"http://localhost:5025/auth/login?userId={loginEncode}");
+
+            // Demande le token en texte brut, sans guillemets JSON.
+            requete.Headers.Accept.ParseAdd("text/plain");
+
+            using var reponse = await Http.SendAsync(requete);
+            reponse.EnsureSuccessStatusCode();
+
+            var token = await reponse.Content.ReadAsStringAsync();
+
+            if (string.IsNullOrWhiteSpace(token))
+            {
+                erreur = "Aucun token reçu.";
+                return;
+            }
+
+            await SessionStorage.SetItemAsync("jwtToken", token);
+            Navigation.NavigateTo("/");
+        }
+        catch (HttpRequestException)
+        {
+            erreur = "Échec de connexion : vérifiez les API et CORS.";
+        }
+    }
+}
