@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "4zCAMVEqmo4=",
+  "dgSpecHash": "JupV+d0oCSE=",
   "success": true,
   "projectFilePath": "C:\\Users\\20231135\\Desktop\\I2\\Dotnet\\GestionOrdinateursRonanMychalski\\GestionOrdinateurs.Client\\GestionOrdinateurs.Client.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\20231135\\.nuget\\packages\\blazored.sessionstorage\\2.4.0\\blazored.sessionstorage.2.4.0.nupkg.sha512",
-    "C:\\Users\\20231135\\.nuget\\packages\\microsoft.aspnetcore.app.internal.assets\\10.0.13\\microsoft.aspnetcore.app.internal.assets.10.0.13.nupkg.sha512",
+    "C:\\Users\\20231135\\.nuget\\packages\\microsoft.aspnetcore.app.internal.assets\\10.0.14\\microsoft.aspnetcore.app.internal.assets.10.0.14.nupkg.sha512",
     "C:\\Users\\20231135\\.nuget\\packages\\microsoft.aspnetcore.authorization\\10.0.13\\microsoft.aspnetcore.authorization.10.0.13.nupkg.sha512",
     "C:\\Users\\20231135\\.nuget\\packages\\microsoft.aspnetcore.components\\10.0.13\\microsoft.aspnetcore.components.10.0.13.nupkg.sha512",
     "C:\\Users\\20231135\\.nuget\\packages\\microsoft.aspnetcore.components.analyzers\\10.0.13\\microsoft.aspnetcore.components.analyzers.10.0.13.nupkg.sha512",
@@ -13,6 +13,7 @@
     "C:\\Users\\20231135\\.nuget\\packages\\microsoft.aspnetcore.components.forms\\10.0.13\\microsoft.aspnetcore.components.forms.10.0.13.nupkg.sha512",
     "C:\\Users\\20231135\\.nuget\\packages\\microsoft.aspnetcore.components.web\\10.0.13\\microsoft.aspnetcore.components.web.10.0.13.nupkg.sha512",
     "C:\\Users\\20231135\\.nuget\\packages\\microsoft.aspnetcore.components.webassembly\\10.0.13\\microsoft.aspnetcore.components.webassembly.10.0.13.nupkg.sha512",
+    "C:\\Users\\20231135\\.nuget\\packages\\microsoft.aspnetcore.components.webassembly.authentication\\10.0.13\\microsoft.aspnetcore.components.webassembly.authentication.10.0.13.nupkg.sha512",
     "C:\\Users\\20231135\\.nuget\\packages\\microsoft.aspnetcore.components.webassembly.devserver\\10.0.13\\microsoft.aspnetcore.components.webassembly.devserver.10.0.13.nupkg.sha512",
     "C:\\Users\\20231135\\.nuget\\packages\\microsoft.aspnetcore.metadata\\10.0.13\\microsoft.aspnetcore.metadata.10.0.13.nupkg.sha512",
     "C:\\Users\\20231135\\.nuget\\packages\\microsoft.bcl.cryptography\\10.0.2\\microsoft.bcl.cryptography.10.0.2.nupkg.sha512",
@@ -41,10 +42,10 @@
     "C:\\Users\\20231135\\.nuget\\packages\\microsoft.identitymodel.tokens\\8.23.0\\microsoft.identitymodel.tokens.8.23.0.nupkg.sha512",
     "C:\\Users\\20231135\\.nuget\\packages\\microsoft.jsinterop\\10.0.13\\microsoft.jsinterop.10.0.13.nupkg.sha512",
     "C:\\Users\\20231135\\.nuget\\packages\\microsoft.jsinterop.webassembly\\10.0.13\\microsoft.jsinterop.webassembly.10.0.13.nupkg.sha512",
-    "C:\\Users\\20231135\\.nuget\\packages\\microsoft.net.illink.tasks\\10.0.13\\microsoft.net.illink.tasks.10.0.13.nupkg.sha512",
-    "C:\\Users\\20231135\\.nuget\\packages\\microsoft.net.sdk.webassembly.pack\\10.0.13\\microsoft.net.sdk.webassembly.pack.10.0.13.nupkg.sha512",
+    "C:\\Users\\20231135\\.nuget\\packages\\microsoft.net.illink.tasks\\10.0.14\\microsoft.net.illink.tasks.10.0.14.nupkg.sha512",
+    "C:\\Users\\20231135\\.nuget\\packages\\microsoft.net.sdk.webassembly.pack\\10.0.14\\microsoft.net.sdk.webassembly.pack.10.0.14.nupkg.sha512",
     "C:\\Users\\20231135\\.nuget\\packages\\system.identitymodel.tokens.jwt\\8.23.0\\system.identitymodel.tokens.jwt.8.23.0.nupkg.sha512",
-    "C:\\Users\\20231135\\.nuget\\packages\\microsoft.netcore.app.runtime.mono.browser-wasm\\10.0.13\\microsoft.netcore.app.runtime.mono.browser-wasm.10.0.13.nupkg.sha512"
+    "C:\\Users\\20231135\\.nuget\\packages\\microsoft.netcore.app.runtime.mono.browser-wasm\\10.0.14\\microsoft.netcore.app.runtime.mono.browser-wasm.10.0.14.nupkg.sha512"
   ],
   "logs": []
 }
