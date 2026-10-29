@@ -8,7 +8,7 @@ builder.Services.AddCors(options =>
 {  
     options.AddPolicy("AllowBlazorClient", policy =>
     {
-        policy.WithOrigins("http://localhost:5289") // URL de ton client Blazor
+        policy.WithOrigins("http://localhost:5289","http://localhost:5000") // URL de ton client Blazor
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
@@ -16,7 +16,7 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddHttpClient("GestionApi", client =>
 {
-    client.BaseAddress = new Uri("http://localhost:5041/");
+    client.BaseAddress = new Uri("http://gestionordinateurs-api:8080/");
 });
 
 var app = builder.Build();
